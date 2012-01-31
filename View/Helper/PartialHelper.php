@@ -20,8 +20,17 @@ class PartialHelper extends AppHelper {
 	 * @return string
 	 */
 	public function render($path, $data = array(), $options = array()) {
-		$path = $this->_path($path);
-		return $this->_View->element($path, $data, $options);
+		$content = "";
+		$_path = $this->_path($path);
+		if (array_key_exists("collection", $options) && is_array($options["collection"])) {
+			foreach ($options["collection"] as $item) {
+				$_data = array_merge($data, array($this->_partialName($path) => $item));
+				$content .= $this->_View->element($_path, $_data, $options);
+			}
+		} else {
+			$content = $this->_View->element($_path, $data, $options);
+		}
+		return $content;
 	}
 
 	/**
@@ -43,6 +52,18 @@ class PartialHelper extends AppHelper {
 			$real_path = "../{$this->_View->viewPath}/_{$path}";
 		}
 		return $real_path;
+	}
+
+	/**
+	 * Splits the path by / and returns the last item in the array.
+	 * 
+	 * @param string $path 
+	 * @access protected
+	 * @return string
+	 */
+	protected function _partialName($path) {
+		$_path = explode("/", $path);
+		return $_path[(count($_path) - 1)];
 	}
 }
 

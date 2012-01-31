@@ -22,6 +22,11 @@ class TestPartialHelper extends PartialHelper {
 	public function path($path) {
 		return $this->_path($path);
 	}
+
+	public function partialName($path) {
+		return $this->_partialName($path);
+	}
+
 }
 
 class PartialHelperTest extends CakeTestCase {
@@ -41,6 +46,15 @@ class PartialHelperTest extends CakeTestCase {
 		$this->Partial->request = new CakeRequest(null, false);
 		$this->Partial->request->webroot = '';
 
+		App::build(array(
+			'plugins' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS),
+			'View' => array(
+				CAKE . 'Test' . DS . 'test_app' . DS . 'View'. DS
+			)
+		), true);
+		CakePlugin::load(array('TestPlugin', 'TestPlugin', 'PluginJs'));
+		Configure::write('debug', 2);
+		
 		Configure::write('Asset.timestamp', false);
 	}
 
@@ -86,6 +100,22 @@ class PartialHelperTest extends CakeTestCase {
 		$expected = "../Something/_partial";
 		$path = $this->Partial->path("/Something/partial");
 		$this->assertEquals($path, $expected);
+	}
+
+	/**
+	 * testPartialName 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testPartialName() {
+		$expected = "partial";
+		$partial = $this->Partial->partialName("partial");
+		$this->assertEquals($partial, $expected);
+		$partial = $this->Partial->partialName("SubDir/partial");
+		$this->assertEquals($partial, $expected);
+		$partial = $this->Partial->partialName("/Elements/partial");
+		$this->assertEquals($partial, $expected);
 	}
 
 }
