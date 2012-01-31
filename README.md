@@ -28,3 +28,5 @@ Will look for \_form.ctp in the View::viewPath (for /posts/add it would be View/
 The $data and $options params are passed on to `View::element()` method. An additional option is "collection". If "collection" is an array, then the `View::element()` will be called for each iteration of the "collection" array. The value of the current iteration is merged in the data array under the element name (without the underscore) key.
 
 	<?php echo $this->Partial->render("post", array(), array("collection" => $posts)); ?>
+
+This will render the `_post.ctp` element for each value in $posts, and set a the value in $posts for this iteration to the "post" key in the data array.
