@@ -11,14 +11,17 @@ if (!defined('FULL_BASE_URL')) {
 
 class PartialTestController extends Controller {
 
-	$this->name = "PartialTest";
+	public $name = "PartialTest";
 
-	$this->uses = null;
+	public $uses = null;
 
 }
 
 class TestPartialHelper extends PartialHelper {
 
+	public function path($path) {
+		return $this->_path($path);
+	}
 }
 
 class PartialHelperTest extends CakeTestCase {
@@ -38,8 +41,6 @@ class PartialHelperTest extends CakeTestCase {
 		$this->Partial->request = new CakeRequest(null, false);
 		$this->Partial->request->webroot = '';
 
-		ClassRegistry::addObject('Contact', new Contact());		
-
 		Configure::write('Asset.timestamp', false);
 	}
 
@@ -50,10 +51,42 @@ class PartialHelperTest extends CakeTestCase {
 	 */
 	public function tearDown() {
 		parent::tearDown();
-		unset($this->TwitterBootstrap, $this->View);
+		unset($this->Partial, $this->View);
 	}
 
-	public function test
+	/**
+	 * testExposesRenderMethod 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testExposesRenderMethod() {
+		$this->assertTrue(method_exists($this->Partial, "render"));
+	}
+
+	/**
+	 * testParsesPartialName 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testParsesPartialName() {
+		$expected = "../PartialTest/_partial";
+		$path = $this->Partial->path("partial");
+		$this->assertEquals($path, $expected);
+	}
+
+	/**
+	 * testParsesPartialNameWithASlash 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testParsesPartialNameWithASlash() {
+		$expected = "../Something/_partial";
+		$path = $this->Partial->path("/Something/partial");
+		$this->assertEquals($path, $expected);
+	}
 
 }
 
