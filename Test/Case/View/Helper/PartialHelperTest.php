@@ -27,6 +27,10 @@ class TestPartialHelper extends PartialHelper {
 		return $this->_partialName($path);
 	}
 
+	protected function _element($path, $data, $options) {
+		return "Element method called.";
+	}
+
 }
 
 class PartialHelperTest extends CakeTestCase {
@@ -116,6 +120,36 @@ class PartialHelperTest extends CakeTestCase {
 		$this->assertEquals($partial, $expected);
 		$partial = $this->Partial->partialName("/Elements/partial");
 		$this->assertEquals($partial, $expected);
+	}
+
+	/**
+	 * testSinglePartial 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testSinglePartial() {
+		$expected = "Element method called.";
+		$content = $this->Partial->render("partial");
+		$this->assertEquals($content, $expected);
+	}
+
+	/**
+	 * testCollectionPartial 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testCollectionPartial() {
+		$_message = "Element method called.";
+		$expected = "";
+		$collection = array();
+		for ($i = 0; $i < 5; $i++) {
+			$expected .= $_message;
+			$collection[] = $_message;
+		}
+		$content = $this->Partial->render("partial", array(), array("collection" => $collection));
+		$this->assertEquals($content, $expected);
 	}
 
 }

@@ -25,12 +25,26 @@ class PartialHelper extends AppHelper {
 		if (array_key_exists("collection", $options) && is_array($options["collection"])) {
 			foreach ($options["collection"] as $item) {
 				$_data = array_merge($data, array($this->_partialName($path) => $item));
-				$content .= $this->_View->element($_path, $_data, $options);
+				$content .= $this->_element($_path, $_data, $options);
 			}
 		} else {
-			$content = $this->_View->element($_path, $data, $options);
+			$content = $this->_element($_path, $data, $options);
 		}
 		return $content;
+	}
+
+	/**
+	 * Wrapping the View::element call in its own method to make
+	 * testing easier. 
+	 * 
+	 * @param mixed $path 
+	 * @param mixed $data 
+	 * @param mixed $options 
+	 * @access protected
+	 * @return void
+	 */
+	protected function _element($path, $data, $options) {
+		return $this->_View->element($path, $data, $options);
 	}
 
 	/**
