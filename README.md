@@ -9,7 +9,7 @@ Download the repository into the the Plugin directory
 	
 Add the `CakePlugin::load()` in the application `bootstrap.php`.
 
-	echo "CakePlugin::load"Partials");" >> Config/bootstrap.php
+	echo "CakePlugin::load("Partials");" >> Config/bootstrap.php
 
 Load the helper so it will be available in views
 
