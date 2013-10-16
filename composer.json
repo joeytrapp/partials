@@ -1,0 +1,17 @@
+{
+	"name": "joeytrapp/partials",
+	"type": "cakephp-plugin",
+	"description": "A CakePHP Partial Helper",
+	"keywords": ["cakephp","helper","partial"],
+	"licence": "MIT",
+	"authors": [
+		{
+			"name": "Joey Trapp",
+			"homepage": "https://github.com/joeytrapp"
+		}
+	],
+	"require": {
+		"php": ">=5.2.0",
+		"composer/installers": "*"
+	}
+}
